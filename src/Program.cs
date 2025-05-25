@@ -4,20 +4,24 @@
     {
         static void Main()
         {
-            Blockchain myBlockchain = new();
+            Blockchain blockchain = new();
+            Console.WriteLine($"Genesis block hash: {blockchain.Chain[0].Hash}");
+
+            blockchain.CreateTransaction(new Transaction("Alice", "Bob", 5));
+            blockchain.CreateTransaction(new Transaction("Bob", "Cooper", 3));
 
             Console.WriteLine("Mining block 1...");
-            myBlockchain.AddBlock(new Block(DateTime.Now, "Block 1 Data"));
+            blockchain.MinePendingTransactions("Miner1");  
 
-            Console.WriteLine("Mining block 2...");
-            myBlockchain.AddBlock(new Block(DateTime.Now, "Block 2 Data"));
+            Console.WriteLine($"Balance Miner1: {blockchain.GetBalance("Miner1")}");  
+                   
+            blockchain.CreateTransaction(new Transaction("Cooper", "Alice", 2));
+            blockchain.MinePendingTransactions("Miner1");  
 
-            Console.WriteLine("\nBlockchain valid?: " + myBlockchain.IsChainValid());
-
-            // Попытка подмены данных
-            Console.WriteLine("\nTrying to tamper data...");
-            myBlockchain.Chain[1].Data = "Modified Data";
-            Console.WriteLine("Blockchain valid?: " + myBlockchain.IsChainValid());
+            Console.WriteLine($"Balance Miner1: {blockchain.GetBalance("Miner1")}");  
+            Console.WriteLine($"Balance Alice: {blockchain.GetBalance("Alice")}");    
+            Console.WriteLine($"Balance Bob: {blockchain.GetBalance("Bob")}");       
+            Console.WriteLine($"Balance Cooper: {blockchain.GetBalance("Cooper")}");
         }
     }
 }
