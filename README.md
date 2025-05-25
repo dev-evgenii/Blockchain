@@ -8,4 +8,6 @@
 
 **Genesis Block**: The first block is initialized when the blockchain is created.
 
-Will continue
+Entry point is Program.cs
+
+**Will continue**
